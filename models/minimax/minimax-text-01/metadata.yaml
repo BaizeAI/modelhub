@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: minimax-text-01
+spec:
+  install:
+    source:
+      modelscope:
+        name: minimax/MiniMax-Text-01
+        git: https://www.modelscope.cn/minimax/MiniMax-Text-01.git
+      huggingface:
+        name: minimax/MiniMax-Text-01
+        git: https://huggingface.co/minimax/MiniMax-Text-01
+      registry:
+        name: minimax/MiniMax-Text-01
+    endpoint:
+      enabled: false
+      baseUrl: ""
+      accessName: ""
+  info:
+    - name: description.zhCn
+      type: Value
+      value: MiniMax-Text-01 是一个强大的语言模型，共有 4560 亿个参数，其中每个 token 激活 459 亿个参数。
+    - name: provider.zhCn
+      type: Value
+      value: MiniMax
+  descriptor:
+    display: MiniMax-Text-01
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: MiniMax-Text-01 is a powerful language model with 456 billion total parameters, of which 45.9 billion are activated per token.
+    icons:
+      - src: ""
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: MiniMax
+        url: https://www.deepseek.com/

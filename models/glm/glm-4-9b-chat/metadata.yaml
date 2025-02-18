@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: glm-4-9b-chat
+spec:
+  install:
+    source:
+      modelscope:
+        name: glm/glm-4-9b-chat
+        git: https://www.modelscope.cn/glm/glm-4-9b-chat.git
+      huggingface:
+        name: glm/glm-4-9b-chat
+        git: https://huggingface.co/glm/glm-4-9b-chat
+      registry:
+        name: glm/glm-4-9b-chat
+    endpoint:
+      enabled: false
+      baseUrl: ""
+      accessName: ""
+  info:
+    - name: description.zhCn
+      type: Value
+      value: GLM-4 系列的9B参数聊天模型，优化用于对话生成和自然语言理解。
+    - name: provider.zhCn
+      type: Value
+      value: GLM
+  descriptor:
+    display: glm-4-9b-chat
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: A 9B parameter chat model from the GLM-4 series, optimized for dialogue generation and natural language understanding.
+    icons:
+      - src: https://public-resources.d.run/models/logos/glm-model-logo.png
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: GLM
+        url: https://www.deepseek.com/

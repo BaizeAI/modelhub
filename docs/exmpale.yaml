@@ -1,0 +1,46 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: "deepseek-v3"
+spec:
+  install:
+    source:
+      modelscope:
+        name: deepseek-ai/DeepSeek-V3
+        git: https://www.modelscope.cn/deepseek-ai/DeepSeek-V3.git
+      huggingface:
+        name: deepseek-ai/DeepSeek-V3
+        git: https://huggingface.co/deepseek-ai/DeepSeek-V3
+      registry:    # harbor compatible registry
+        name: deepseek-ai/DeepSeek-V3
+    endpoint:
+      enabled: true
+      baseUrl: "https://chat.d.run"
+      accessName: public/deepseek-v3
+  info:
+    - name: description.zhCn
+      type: Value
+      value: "DeepSeek-V3 是一个拥有 6710 亿参数的专家混合语言模型，每个 token 激活 370 亿参数，在 14.8 万亿个 token 上训练，具备高级语言理解能力"
+    - name: provider.zhCn
+      type: Value
+      value: DeepSeek
+  descriptor:
+    display: "DeepSeek-V3"
+    keywords:
+      - "text generation"
+      - "fine-tune"
+    links:
+      - description: About
+        url: "https://www.deepseek.com/"
+    version: "4.9.4"
+    description: "DeepSeek-V3 is a 671B parameter Mixture-of-Experts language model, activating 37B parameters per token, trained on 14.8 trillion tokens for advanced language understanding."
+    icons:
+      - src: "https://public-resources.d.run/models/logos/deepseek-model-logo.svg"
+        type: "image/svg"    # mime
+        size: "50x50"
+    provider:
+      - name: DeepSeek
+        url: https://www.deepseek.com/
+      - name: 深度求索
+        url: https://www.deepseek.com/
+        

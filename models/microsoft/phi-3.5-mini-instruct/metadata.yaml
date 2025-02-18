@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: phi-3.5-mini-instruct
+spec:
+  install:
+    source:
+      modelscope:
+        name: microsoft/Phi-3.5-mini-instruct
+        git: https://www.modelscope.cn/microsoft/Phi-3.5-mini-instruct.git
+      huggingface:
+        name: microsoft/Phi-3.5-mini-instruct
+        git: https://huggingface.co/microsoft/Phi-3.5-mini-instruct
+      registry:
+        name: microsoft/Phi-3.5-mini-instruct
+    endpoint:
+      enabled: false
+      baseUrl: ""
+      accessName: ""
+  info:
+    - name: description.zhCn
+      type: Value
+      value: Phi 系列的迷你指令模型，轻量级设计，适用于多种自然语言处理任务。
+    - name: provider.zhCn
+      type: Value
+      value: 微软
+  descriptor:
+    display: Phi-3.5-mini-instruct
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: A mini instruction-tuned model from the Phi series, lightweight and suitable for various natural language processing tasks.
+    icons:
+      - src: https://public-resources.d.run/models/logos/phi-model-logo.svg
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: Microsoft
+        url: https://www.deepseek.com/
