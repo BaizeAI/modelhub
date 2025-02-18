@@ -22,25 +22,7 @@ jobs:
       run: pip install pyyaml
 
     - name: Merge YAML files
-      uses: jannekem/run-python-script-action@v1
-      with:
-          script: |
-            import os
-            import yaml
-            
-            output_file = 'merged/index.yaml'
-            os.makedirs(os.path.dirname(output_file), exist_ok=True)
-            
-            merged_data = {}
-            for root, _, files in os.walk('models'):
-                for file in files:
-                    if file.endswith('.yaml'):
-                        with open(os.path.join(root, file), 'r') as f:
-                            data = yaml.safe_load(f)
-                            merged_data.update(data)
-            
-            with open(output_file, 'w') as f:
-                yaml.dump(merged_data, f)
+      run: python hack/merge_yaml.py
 
     - name: Create Release
       id: create_release
