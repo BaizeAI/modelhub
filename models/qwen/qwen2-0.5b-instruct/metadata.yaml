@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen2-0.5b-instruct
+spec:
+  install:
+    source:
+      modelscope:
+        name: qwen/Qwen2-0.5B-Instruct
+        git: https://www.modelscope.cn/qwen/Qwen2-0.5B-Instruct.git
+      huggingface:
+        name: qwen/Qwen2-0.5B-Instruct
+        git: https://huggingface.co/qwen/Qwen2-0.5B-Instruct
+      registry:
+        name: qwen/Qwen2-0.5B-Instruct
+    endpoint:
+      enabled: true
+      baseUrl: https://cn-shanghai-a1.demo-dev-regions.daocloud.io
+      accessName: public/qwen2.5-0.5b
+  info:
+    - name: description.zhCn
+      type: Value
+      value: Qwen2 系列的 0.5B 参数指令微调模型，适用于多语言文本生成和理解。
+    - name: provider.zhCn
+      type: Value
+      value: ""
+  descriptor:
+    display: Qwen2-0.5B-Instruct
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: A 0.5B parameter instruction-tuned model from the Qwen2 series, suitable for multilingual text generation and understanding.
+    icons:
+      - src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: ""
+        url: https://www.deepseek.com/

@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: llama-3.2-11b-vision-instruct
+spec:
+  install:
+    source:
+      modelscope:
+        name: meta/Llama-3.2-11B-Vision-Instruct
+        git: https://www.modelscope.cn/meta/Llama-3.2-11B-Vision-Instruct.git
+      huggingface:
+        name: meta/Llama-3.2-11B-Vision-Instruct
+        git: https://huggingface.co/meta/Llama-3.2-11B-Vision-Instruct
+      registry:
+        name: meta/Llama-3.2-11B-Vision-Instruct
+    endpoint:
+      enabled: true
+      baseUrl: https://cn-shanghai-a1.demo-dev-regions.daocloud.io
+      accessName: public/llama-3.2-11b-vision-instruct
+  info:
+    - name: description.zhCn
+      type: Value
+      value: Llama 系列的 11B 参数视觉指令模型，结合视觉和语言处理能力，适用于多模态任务。
+    - name: provider.zhCn
+      type: Value
+      value: Meta
+  descriptor:
+    display: Llama-3.2-11B-Vision-Instruct
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: An 11B parameter vision-instruct model from the Llama series, integrating vision and language processing capabilities for multimodal tasks.
+    icons:
+      - src: https://public-resources.d.run/models/logos/llama-model-logo.svg
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: Meta
+        url: https://www.deepseek.com/

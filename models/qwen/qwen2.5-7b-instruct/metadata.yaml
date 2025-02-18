@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen2.5-7b-instruct
+spec:
+  install:
+    source:
+      modelscope:
+        name: qwen/Qwen2.5-7B-Instruct
+        git: https://www.modelscope.cn/qwen/Qwen2.5-7B-Instruct.git
+      huggingface:
+        name: qwen/Qwen2.5-7B-Instruct
+        git: https://huggingface.co/qwen/Qwen2.5-7B-Instruct
+      registry:
+        name: qwen/Qwen2.5-7B-Instruct
+    endpoint:
+      enabled: false
+      baseUrl: ""
+      accessName: ""
+  info:
+    - name: description.zhCn
+      type: Value
+      value: Qwen2.5 系列的7B参数指令微调模型，支持多语言，擅长长文本生成和结构化数据理解。
+    - name: provider.zhCn
+      type: Value
+      value: ""
+  descriptor:
+    display: Qwen2.5-7B-Instruct
+    links:
+      - description: About
+        url: https://www.deepseek.com/
+    version: 4.9.4
+    description: A 7B parameter instruction-tuned model from the Qwen2.5 series, supporting multiple languages, excelling in long text generation and structured data understanding.
+    icons:
+      - src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+        type: image/svg
+        size: 50x50
+    provider:
+      - name: ""
+        url: https://www.deepseek.com/
