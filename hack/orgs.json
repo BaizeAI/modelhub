@@ -1,0 +1,23 @@
+{
+    "baichuan-inc": {
+        "link": "https://github.com/baichuan-inc"
+    },
+    "deepseek-ai": {
+        "link": "https://www.deepseek.com/"
+    },
+    "ZhipuAI": {
+        "link": "https://www.zhipu.ai"
+    },
+    "meta-llama": {
+        "link": "https://ai.meta.com/llama/"
+    },
+    "MiniMaxAI": {
+        "link": "https://www.minimaxi.com/"
+    },
+    "microsoft": {
+        "link": "https://www.microsoft.com/en-us/research/"
+    },
+    "Qwen": {
+        "link": "https://github.com/QwenLM"
+    }
+}

@@ -1,0 +1,39 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: deepseek-r1-distill-qwen-1.5b
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 1
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 16
+      perGPUMemoryGB: 6
+    runtime: vllm
+    versionRequired: '>=v0.7.1'
+  descriptor:
+    description:
+      enUS: A distilled model from the DeepSeek series, optimized for efficient inference
+        and performance.
+      zhCN: DeepSeek 系列的蒸馏模型，优化了推理效率和性能。
+    display: Deepseek-R1-Distill-Qwen-1.5B
+    icon:
+      src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.deepseek.com/
+    provider:
+      id: deepseek
+      name:
+        enUS: DeepSeek
+        zhCN: DeepSeek
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+    modelscope:
+      name: deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B

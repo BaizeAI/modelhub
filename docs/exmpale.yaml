@@ -1,46 +1,77 @@
 apiVersion: model.hydra.io/v1alpha1
 kind: ModelSpec
 metadata:
-  name: "deepseek-v3"
+  name: deepseek-v3  # the model id
 spec:
-  install:
-    source:
-      modelscope:
-        name: deepseek-ai/DeepSeek-V3
-        git: https://www.modelscope.cn/deepseek-ai/DeepSeek-V3.git
-      huggingface:
-        name: deepseek-ai/DeepSeek-V3
-        git: https://huggingface.co/deepseek-ai/DeepSeek-V3
-      registry:    # harbor compatible registry
-        name: deepseek-ai/DeepSeek-V3
-    endpoint:
-      enabled: true
-      baseUrl: "https://chat.d.run"
-      accessName: public/deepseek-v3
-  info:
-    - name: description.zhCn
-      type: Value
-      value: "DeepSeek-V3 是一个拥有 6710 亿参数的专家混合语言模型，每个 token 激活 370 亿参数，在 14.8 万亿个 token 上训练，具备高级语言理解能力"
-    - name: provider.zhCn
-      type: Value
-      value: DeepSeek
+  source: # Define where to download the model from.
+    modelscope:
+      name: deepseek-ai/DeepSeek-V3 # modelscope repo id
+    huggingface:
+      name: deepseek/DeepSeek-V3 # huggingface repo id
+  deployments: # Define deployment policies, runtime and resource requirements and optimizations, etc.
+    - runtime: vllm # runtime, current support sglang or vllm
+      versionRequired: '>=0.7.1' # semver match for runtime.
+      resourceRequirements: # Defines the minimum resource requirements for the model to run on different GPUs.
+        gpuType: nvidia-gpu  # GPU type, support nvidia-gpu,nvidia-vgpu,metax-gpu currentlly
+        gpuCount: 16
+        perGPUMemoryGB: 80
+        cpu: 8   # cpu requirements, unit: Core.
+        memory: 32  # memory requirements, unit: Gi
+      customRuntimeArgs: []  # define runtime parameters that are optimized for this scenario.
+    - runtime: sglang
+      versionRequired: '>=0.4.3'
+      resourceRequirements:
+        gpuType: nvidia-gpu
+        gpuCount: 16
+        perGPUMemoryGB: 80
+        cpu: 8
+        memory: 32
+      customRuntimeArgs: []
+    - runtime: vllm
+      versionRequired: '>=0.7.1'
+      resourceRequirements:
+        gpuType: nvidia-gpu
+        gpuCount: 32
+        perGPUMemoryGB: 48
+        cpu: 8
+        memory: 32
+      customRuntimeArgs: []
+    - runtime: vllm
+      versionRequired: '>=0.7.1'
+      resourceRequirements:
+        gpuType: metax-gpu
+        gpuCount: 32
+        perGPUMemoryGB: 40
+        cpu: 8
+        memory: 32
+      customRuntimeArgs: []
+
   descriptor:
-    display: "DeepSeek-V3"
-    keywords:
-      - "text generation"
-      - "fine-tune"
+    display: DeepSeek-V3  # Display name
     links:
       - description: About
-        url: "https://www.deepseek.com/"
-    version: "4.9.4"
-    description: "DeepSeek-V3 is a 671B parameter Mixture-of-Experts language model, activating 37B parameters per token, trained on 14.8 trillion tokens for advanced language understanding."
-    icons:
-      - src: "https://public-resources.d.run/models/logos/deepseek-model-logo.svg"
-        type: "image/svg"    # mime
-        size: "50x50"
+        url: https://www.deepseek.com/
+    description: 
+      enUS: DeepSeek-V3 is a 671B parameter Mixture-of-Experts language model, activating 37B parameters per token, trained on 14.8 trillion tokens for advanced language understanding.
+      zhCN: DeepSeek-V3 是一个拥有 6710 亿参数的专家混合语言模型，每个 token 激活 370 亿参数，在 14.8 万亿个 token 上训练，具备高级语言理解能力。
+    icon:
+      src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
+      type: image/svg
     provider:
-      - name: DeepSeek
-        url: https://www.deepseek.com/
-      - name: 深度求索
-        url: https://www.deepseek.com/
-        
+      id: deepseek
+      name:
+        zhCN: DeepSeek
+        enUS: DeepSeek
+    # tags
+    # TEXT_GENERATION   // 文本生成模型
+    # VIDEO_TO_TEXT     // 视频理解模型
+    # TEXT_TO_VIDEO     // 视频生成模型
+    # IMAGE_TO_IMAGE    // 图片处理模型
+    # IMAGE_TO_TEXT     // 图片理解模型
+    # TEXT_TO_IMAGE     // 图片生成模型
+    # EMBEDDING         // 向量模型
+    # RERANK_MODEL      // 重排模型
+    # AUDIO_TO_AUDIO    // 语音合成模型
+    # AUDIO_TO_TEXT     // 语音识别模型
+    tags:
+    - TEXT_GENERATION

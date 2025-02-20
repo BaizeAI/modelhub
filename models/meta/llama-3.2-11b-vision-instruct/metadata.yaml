@@ -3,38 +3,41 @@ kind: ModelSpec
 metadata:
   name: llama-3.2-11b-vision-instruct
 spec:
-  install:
-    source:
-      modelscope:
-        name: meta/Llama-3.2-11B-Vision-Instruct
-        git: https://www.modelscope.cn/meta/Llama-3.2-11B-Vision-Instruct.git
-      huggingface:
-        name: meta/Llama-3.2-11B-Vision-Instruct
-        git: https://huggingface.co/meta/Llama-3.2-11B-Vision-Instruct
-      registry:
-        name: meta/Llama-3.2-11B-Vision-Instruct
-    endpoint:
-      enabled: true
-      baseUrl: https://cn-shanghai-a1.demo-dev-regions.daocloud.io
-      accessName: public/llama-3.2-11b-vision-instruct
-  info:
-    - name: description.zhCn
-      type: Value
-      value: Llama 系列的 11B 参数视觉指令模型，结合视觉和语言处理能力，适用于多模态任务。
-    - name: provider.zhCn
-      type: Value
-      value: Meta
+  deployments:
+  - customRuntimeArgs:
+    - --max-model-len=4096
+    - --max-num-seqs=16
+    - --enforce-eager
+    resourceRequirements:
+      cpu: 1
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 16
+      perGPUMemoryGB: 50
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
   descriptor:
+    description:
+      enUS: An 11B parameter vision-instruct model from the Llama series, integrating
+        vision and language processing capabilities for multimodal tasks.
+      zhCN: Llama 系列的 11B 参数视觉指令模型，结合视觉和语言处理能力，适用于多模态任务。
     display: Llama-3.2-11B-Vision-Instruct
+    icon:
+      src: https://public-resources.d.run/models/logos/llama-model-logo.svg
+      type: image/svg
     links:
-      - description: About
-        url: https://www.deepseek.com/
-    version: 4.9.4
-    description: An 11B parameter vision-instruct model from the Llama series, integrating vision and language processing capabilities for multimodal tasks.
-    icons:
-      - src: https://public-resources.d.run/models/logos/llama-model-logo.svg
-        type: image/svg
-        size: 50x50
+    - description: About
+      url: https://ai.meta.com/llama/
     provider:
-      - name: Meta
-        url: https://www.deepseek.com/
+      id: meta
+      name:
+        enUS: Meta
+        zhCN: Meta
+    tags:
+    - TEXT_GENERATION
+    - IMAGE_TO_TEXT
+  source:
+    huggingface:
+      name: meta-llama/Llama-3.2-11B-Vision-Instruct
+    modelscope:
+      name: LLM-Research/Llama-3.2-11B-Vision-Instruct

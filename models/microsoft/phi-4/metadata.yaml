@@ -1,25 +1,26 @@
 apiVersion: model.hydra.io/v1alpha1
 kind: ModelSpec
 metadata:
-  name: phi-3.5-mini-instruct
+  name: phi-4
 spec:
   deployments:
   - customRuntimeArgs:
     - --max-model-len=4096
     resourceRequirements:
-      cpu: 1
+      cpu: 16
       gpuCount: 1
       gpuType: nvidia-vgpu
       memory: 16
-      perGPUMemoryGB: 25
+      perGPUMemoryGB: 50
     runtime: vllm
     versionRequired: '>=v0.6.5'
   descriptor:
     description:
-      enUS: A mini instruction-tuned model from the Phi series, lightweight and suitable
-        for various natural language processing tasks.
-      zhCN: Phi 系列的迷你指令模型，轻量级设计，适用于多种自然语言处理任务。
-    display: Phi-3.5-mini-instruct
+      enUS: phi-4 is a state-of-the-art open model built upon a blend of synthetic
+        datasets, data from filtered public domain websites, and acquired academic
+        books and Q&A datasets.
+      zhCN: phi-4，参数只有140亿性能却极强，在GPQA研究生水平、MATH数学基准测试中，超过了OpenAI的GPT-4o，也超过了同类顶级开源模型Qwen2.5-14B和Llama-3.3-70B
+    display: Phi-4
     icon:
       src: https://public-resources.d.run/models/logos/phi-model-logo.svg
       type: image/svg
@@ -35,6 +36,6 @@ spec:
     - TEXT_GENERATION
   source:
     huggingface:
-      name: microsoft/phi-3.5-mini-instruct
+      name: microsoft/phi-4
     modelscope:
-      name: LLM-Research/Phi-3.5-mini-instruct
+      name: microsoft/phi-4
