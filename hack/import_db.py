@@ -56,15 +56,52 @@ def get_source(model_path):
         }
     }
 
+class Provider:
+    id = ""
+    _id = ""
+    name = ""
+    zhCN_name = ""
+
+    def __init__(self, provider_str):
+        provider = json.loads(provider_str)
+        name = provider['enUS']
+        provider_id = str.lower(name)
+        self.id = provider_id
+        self.name = name
+        self.zhCN_name = provider['zhCN']
+    
+    def to_map(self) -> dict:
+        return {
+            "id": self.id,
+            "name": {
+                "enUS": self.name,
+                "zhCN": self.zhCN_name
+            }
+        }
+    
+    def with_suggest(self, sources, orgs):
+        org = get_org_from_source(sources)
+        suggest = orgs.get(org)
+        if not suggest:
+            return self
+        
+        if "enUS" in suggest:
+            self.name = suggest["enUS"]
+            self.id = str.lower(self.name)
+        
+        if "zhCN" in suggest:
+            self.zhCN_name = suggest["zhCN"]
+        
+        return self
 
 def create_yaml(model_data):
     model_id = model_data['model_id']
     model_name = model_data['model_name']
     model_description = yaml.safe_load(model_data['model_description'])
     resource_requirements = parse_resource_requirements(model_data['resources_requirements'], model_data['model_image'], model_data['custom_deploy_args'])
-    provider_name = json.loads(model_data['provider'])
-    provider_id = str.lower(provider_name['enUS'])
-    model_path = f'{provider_id}/{model_id}'
+
+    provider = Provider(model_data['provider'])
+    model_path = f'{provider.id}/{model_id}'
     source = get_source(model_path)
 
     yaml_content = {
@@ -84,18 +121,13 @@ def create_yaml(model_data):
                     'src': model_data['model_avatar'],
                     'type': 'image/svg'
                 },
-                'provider': {
-                    'id': provider_id,
-                    'name': provider_name,
-                },
+                'provider': provider.with_suggest(source, orgs).to_map(),
                 'tags': json.loads(model_data['model_support_feature'])
             }
         }
     }
     
     return yaml_content
-
-
 
 def use_suggests(platform, model_path):
     _, model_name = get_org_and_model_id(model_path)
@@ -143,6 +175,12 @@ def links(source):
     return []
 
 
+def get_org_from_source(source):
+    org, _ = get_org_and_model_id(source['modelscope']['name'])
+    if org == "LLM-Research":   # LLM-Research is a common org name
+        org, _ = get_org_and_model_id(source['huggingface']['name'])
+    return org
+
 # {
 #     "Code": 200,
 #     "Data": {
@@ -164,9 +202,7 @@ def links(source):
 #     "Success": true
 # }
 def add_modelscope_about(source):
-    org, _ = get_org_and_model_id(source['modelscope']['name'])
-    if org == "LLM-Research":   # LLM-Research is a common org name
-        org, _ = get_org_and_model_id(source['huggingface']['name'])
+    org = get_org_from_source(source)
 
     if org in orgs:
         return {

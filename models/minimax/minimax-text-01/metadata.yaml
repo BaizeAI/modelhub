@@ -29,7 +29,7 @@ spec:
       id: minimax
       name:
         enUS: MiniMax
-        zhCN: MiniMax
+        zhCN: 稀宇科技
     tags:
     - TEXT_GENERATION
   source:

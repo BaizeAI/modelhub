@@ -33,7 +33,7 @@ spec:
       id: deepseek
       name:
         enUS: DeepSeek
-        zhCN: DeepSeek
+        zhCN: 深度求索
     tags:
     - TEXT_GENERATION
   source:
