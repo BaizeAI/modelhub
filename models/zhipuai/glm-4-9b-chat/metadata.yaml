@@ -26,10 +26,10 @@ spec:
     - description: About
       url: https://www.zhipu.ai
     provider:
-      id: glm
+      id: zhipuai
       name:
-        enUS: GLM
-        zhCN: GLM
+        enUS: ZhipuAI
+        zhCN: 智谱AI
     tags:
     - TEXT_GENERATION
   source:

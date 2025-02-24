@@ -3,16 +3,20 @@
         "link": "https://github.com/baichuan-inc"
     },
     "deepseek-ai": {
-        "link": "https://www.deepseek.com/"
+        "link": "https://www.deepseek.com/",
+        "zhCN": "\u6df1\u5ea6\u6c42\u7d22"
     },
     "ZhipuAI": {
-        "link": "https://www.zhipu.ai"
+        "link": "https://www.zhipu.ai",
+        "zhCN": "\u667a\u8c31AI",
+        "enUS": "ZhipuAI"
     },
     "meta-llama": {
         "link": "https://ai.meta.com/llama/"
     },
     "MiniMaxAI": {
-        "link": "https://www.minimaxi.com/"
+        "link": "https://www.minimaxi.com/",
+        "zhCN": "\u7a00\u5b87\u79d1\u6280"
     },
     "microsoft": {
         "link": "https://www.microsoft.com/en-us/research/"
