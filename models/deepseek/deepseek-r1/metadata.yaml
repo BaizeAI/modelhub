@@ -1,7 +1,7 @@
 apiVersion: model.hydra.io/v1alpha1
 kind: ModelSpec
 metadata:
-  name: deepseek-v3
+  name: deepseek-r1
 spec:
   deployments:
   - customRuntimeArgs: []
@@ -15,12 +15,12 @@ spec:
     versionRequired: '>=v0.6.5'
   descriptor:
     description:
-      enUS: DeepSeek-V3 is a 671B parameter Mixture-of-Experts language model, activating
-        37B parameters per token, trained on 14.8 trillion tokens for advanced language
-        understanding.
-      zhCN: DeepSeek-V3 是一个拥有 6710 亿参数的专家混合语言模型，每个 token 激活 370 亿参数，在 14.8 万亿个 token
-        上训练，具备高级语言理解能力。
-    display: 🔥 DeepSeek-V3
+      enUS: DeepSeek-R1 is an inference model developed by DeepSeek, which uses reinforcement
+        learning for post-training, aiming to enhance its inference capabilities,
+        especially in complex tasks such as mathematics, coding, and natural language
+        reasoning.
+      zhCN: DeepSeek-R1，是幻方量化旗下AI公司深度求索（DeepSeek）研发的推理模型。DeepSeek-R1采用强化学习进行后训练，旨在提升推理能力，尤其擅长数学、代码和自然语言推理等复杂任务。
+    display: '🔥 DeepSeek-R1 '
     icon:
       src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
       type: image/svg
@@ -36,6 +36,6 @@ spec:
     - TEXT_GENERATION
   source:
     huggingface:
-      name: deepseek-ai/DeepSeek-V3
+      name: deepseek-ai/DeepSeek-R1
     modelscope:
-      name: deepseek-ai/DeepSeek-V3
+      name: deepseek-ai/DeepSeek-R1

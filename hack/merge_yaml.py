@@ -13,7 +13,7 @@ merged_data = {
 
 for root, _, files in os.walk('models'):
     for file in files:
-        if file.endswith('.yaml'):
+        if file.endswith('metadata.yaml'):
             with open(os.path.join(root, file), 'r') as f:
                 data = yaml.safe_load(f)
                 if data is None:

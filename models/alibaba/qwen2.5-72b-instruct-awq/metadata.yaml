@@ -1,0 +1,39 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen2.5-72b-instruct-awq
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 1
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 32
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  descriptor:
+    description:
+      enUS: A 72B parameter instruction-tuned model from the Qwen2.5 series, utilizing
+        AWQ quantization for balanced performance and efficiency in complex tasks.
+      zhCN: Qwen2.5 系列的 72B 参数指令模型，采用 AWQ 量化，兼顾性能和效率，适用于复杂任务。
+    display: Qwen2.5-72B-Instruct-AWQ
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: Qwen/Qwen2.5-VL-72B-Instruct-AWQ
+    modelscope:
+      name: Qwen/Qwen2.5-VL-72B-Instruct-AWQ

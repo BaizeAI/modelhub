@@ -1,0 +1,45 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: deepseek-r1-distill-qwen-32b
+spec:
+  deployments:
+  - customRuntimeArgs:
+    - --max-model-len=32768
+    - --enforce-eager
+    - --enable_reasoning
+    - --reasoning_parser=deepseek_r1
+    - --gpu-memory-utilization=1
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 64
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=v0.7.1'
+  descriptor:
+    description:
+      enUS: DeepSeek-R1-Distill-Qwen-32B is an optimized version based on Qwen-32B,
+        leveraging knowledge distillation techniques to enhance its performance while
+        maintaining a lightweight structure.
+      zhCN: DeepSeek-R1-Distill-Qwen-32B 是一个基于 Qwen-32B 的优化版本，通过基于DeepSeek-R1的知识蒸馏技术对模型进行了优化，使其在保持高效性能的同时，具备更轻量化的结构。它在多种自然语言处理任务中表现出色，尤其擅长文本生成、对话理解和多语言翻译等任务。该模型经过大规模数据训练，能够理解复杂的语言模式并生成高质量的文本内容。
+    display: DeepSeek-R1-Distill-Qwen-32B
+    icon:
+      src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.deepseek.com/
+    provider:
+      id: deepseek
+      name:
+        enUS: DeepSeek
+        zhCN: DeepSeek
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+    modelscope:
+      name: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B

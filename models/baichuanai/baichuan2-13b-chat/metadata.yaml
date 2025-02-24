@@ -1,0 +1,48 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: baichuan2-13b-chat
+spec:
+  deployments:
+  - customRuntimeArgs:
+    - --chat-template
+    - "{{ (messages|selectattr(\"role\", \"equalto\", \"system\")|list|last).content|trim\
+      \ if (messages|selectattr(\"role\", \"equalto\", \"system\")|list) else \"\"\
+      \ }}\n\n{%- for message in messages -%}\n    {%- if message[\"role\"] == \"\
+      user\" -%}\n        {{- \"<reserved_106>\" + message[\"content\"] -}}\n    {%-\
+      \ elif message[\"role\"] == \"assistant\" -%}\n        {{- \"<reserved_107>\"\
+      \ + message[\"content\"] -}}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt\
+      \ and messages[-1][\"role\"] != \"assistant\" -%}\n    {{- \"<reserved_107>\"\
+      \ -}}\n{% endif %}"
+    resourceRequirements:
+      cpu: 1
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 16
+      perGPUMemoryGB: 50
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  descriptor:
+    description:
+      enUS: A 13B parameter chat model from the Baichuan2 series, focused on Chinese
+        dialogue generation with strong language understanding capabilities.
+      zhCN: Baichuan2 系列的 13B 参数聊天模型，专注于中文对话生成，具备强大的语言理解能力。
+    display: baichuan2-13b-Chat
+    icon:
+      src: https://public-resources.d.run/models/logos/baichuan-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/baichuan-inc
+    provider:
+      id: baichuanai
+      name:
+        enUS: BaichuanAI
+        zhCN: 百川智能
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: baichuan-inc/Baichuan2-13B-Chat
+    modelscope:
+      name: baichuan-inc/Baichuan2-13B-Chat
