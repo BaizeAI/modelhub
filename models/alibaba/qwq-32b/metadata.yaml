@@ -1,0 +1,43 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwq-32b
+spec:
+  deployments:
+  - customRuntimeArgs:
+    - --max-model-len=32768
+    - --enforce-eager
+    - --enable_reasoning
+    - --reasoning_parser=deepseek_r1
+    - --gpu-memory-utilization=1
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 64
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=v0.7.1'
+  descriptor:
+    description:
+      enUS: QwQ is Qwen’s reasoning model, outperforming instruction-tuned models with superior performance on challenging tasks.
+      zhCN: QwQ 是 Qwen 系列的推理模型，推理能力超越传统指令模型，在复杂任务上表现突出。
+    display: QwQ-32B
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: Qwen/QwQ-32B
+    modelscope:
+      name: Qwen/QwQ-32B
