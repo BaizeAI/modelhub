@@ -1,0 +1,82 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: hidream-i1-dev
+spec:
+  deployments:
+  - customRuntimeArgs:
+    - --steps-scale=2.8
+    - --logging-level=DEBUG
+    - --disbale-duplicate-scheduler=True
+    - --custom-load-pipe-script
+    - |-
+      import torch
+      from transformers import PreTrainedTokenizerFast, LlamaForCausalLM, AutoModel
+      from diffusers import (
+          UniPCMultistepScheduler,
+          HiDreamImagePipeline,
+          HiDreamImageTransformer2DModel,
+      )
+
+      scheduler = UniPCMultistepScheduler(
+          flow_shift=3.0,
+          prediction_type="flow_prediction",
+          use_flow_sigmas=True,
+      )
+
+      tokenizer_4 = PreTrainedTokenizerFast.from_pretrained(
+          args.model,
+          subfolder='llama-3.1-8b-hf',
+      )
+
+      text_encoder_4 = AutoModel.from_pretrained(
+          args.model,
+          subfolder='llama-3.1-8b-hf',
+          output_hidden_states=True,
+          output_attentions=True,
+          torch_dtype=torch.bfloat16,
+      ).to(args.device)
+
+      transformer = HiDreamImageTransformer2DModel.from_pretrained(
+          args.model, subfolder="transformer", torch_dtype=torch.bfloat16
+      ).to(args.device)
+
+      pipe = HiDreamImagePipeline.from_pretrained(
+          args.model,
+          scheduler=scheduler,
+          tokenizer_4=tokenizer_4,
+          text_encoder_4=text_encoder_4,
+          transformer=transformer,
+          torch_dtype=torch.bfloat16,
+      ).to(args.device)
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 1
+      gpuType: nvidia-vgpu
+      memory: 64
+      perGPUMemoryGB: 80
+    runtime: image-gen
+    versionRequired: '>=v0.0.5'
+  descriptor:
+    description:
+      enUS: HiDream-I1-Dev is a new open-source image generative foundation model with 17B parameters that achieves state-of-the-art image generation quality within seconds.
+      zhCN: Hidream-I1-Dev 是一种新的开源图像生成基础模型，具有17B参数，可在几秒钟内实现最新的图像生成质量。
+    display: Hidream-I1-Dev
+    icon:
+      src: https://public-resources.d.run/models/logos/hidream-logo.webp
+      type: image/webp
+    links:
+    - description: About
+      url: https://hidreamai.com/explore
+    provider:
+      id: hidream
+      name:
+        enUS: HiDream.ai
+        zhCN: HiDream.ai
+    tags:
+    - TEXT_TO_IMAGE
+  source:
+    huggingface:
+      name: HiDream-ai/HiDream-I1-Dev
+    modelscope:
+      name: AI-ModelScope/HiDream-I1-Dev
