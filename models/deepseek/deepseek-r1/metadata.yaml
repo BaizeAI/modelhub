@@ -7,9 +7,9 @@ spec:
   - customRuntimeArgs: []
     resourceRequirements:
       cpu: 8
-      gpuCount: 8
-      gpuType: nvidia-gpu
-      memory: 640
+      gpuCount: 12
+      gpuType: gpu
+      memory: 960
       perGPUMemoryGB: 80
     runtime: vllm
     versionRequired: '>=v0.6.5'

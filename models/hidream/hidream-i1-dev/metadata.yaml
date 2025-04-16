@@ -52,11 +52,11 @@ spec:
     resourceRequirements:
       cpu: 8
       gpuCount: 1
-      gpuType: nvidia-vgpu
+      gpuType: vgpu
       memory: 64
       perGPUMemoryGB: 80
     runtime: image-gen
-    versionRequired: '>=v0.0.5'
+    versionRequired: '>=v0.0.6'
   descriptor:
     description:
       enUS: HiDream-I1-Dev is a new open-source image generative foundation model with 17B parameters that achieves state-of-the-art image generation quality within seconds.

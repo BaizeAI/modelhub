@@ -12,7 +12,7 @@ spec:
     - runtime: vllm # runtime, current support sglang or vllm
       versionRequired: '>=0.7.1' # semver match for runtime.
       resourceRequirements: # Defines the minimum resource requirements for the model to run on different GPUs.
-        gpuType: nvidia-gpu  # GPU type, support nvidia-gpu,nvidia-vgpu,metax-gpu currentlly
+        gpuType: gpu  # GPU type, support gpu,vgpu,metax-gpu currentlly
         gpuCount: 16
         perGPUMemoryGB: 80
         cpu: 8   # cpu requirements, unit: Core.
@@ -21,7 +21,7 @@ spec:
     - runtime: sglang
       versionRequired: '>=0.4.3'
       resourceRequirements:
-        gpuType: nvidia-gpu
+        gpuType: gpu
         gpuCount: 16
         perGPUMemoryGB: 80
         cpu: 8
@@ -30,7 +30,7 @@ spec:
     - runtime: vllm
       versionRequired: '>=0.7.1'
       resourceRequirements:
-        gpuType: nvidia-gpu
+        gpuType: gpu
         gpuCount: 32
         perGPUMemoryGB: 48
         cpu: 8

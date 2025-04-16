@@ -28,7 +28,7 @@ def parse_resource_requirements(resource_requirements, runtime_image, custom_dep
             'runtime': 'vllm',
             'versionRequired': f">={tag}",
             'resourceRequirements': {
-                'gpuType': 'nvidia-gpu' if gpu_spec['gpuType'] == 'gpu' else 'nvidia-vgpu', #?
+                'gpuType': 'gpu' if gpu_spec['gpuType'] == 'gpu' else 'vgpu', #?
                 'gpuCount': gpu_spec['count'],
                 'perGPUMemoryGB': gpu_memory_to_gb(gpu_spec['perGPUMemory']),
                 'cpu': spec['cpu'],

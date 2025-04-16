@@ -23,8 +23,8 @@ import (
 type ModelSpecGPUType string
 
 const (
-	NvidiaGPU  ModelSpecGPUType = "nvidia-gpu"
-	NvidiavGPU ModelSpecGPUType = "nvidia-vgpu"
+	NvidiaGPU  ModelSpecGPUType = "gpu"
+	NvidiavGPU ModelSpecGPUType = "vgpu"
 )
 
 // TODO: uses quantity.Quantity instead of int
