@@ -9,7 +9,7 @@ spec:
     resourceRequirements:
       cpu: 1
       gpuCount: 1
-      gpuType: nvidia-vgpu
+      gpuType: vgpu
       memory: 16
       perGPUMemoryGB: 25
     runtime: vllm

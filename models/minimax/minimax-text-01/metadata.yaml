@@ -8,7 +8,7 @@ spec:
     resourceRequirements:
       cpu: 8
       gpuCount: 8
-      gpuType: nvidia-gpu
+      gpuType: gpu
       memory: 640
       perGPUMemoryGB: 80
     runtime: vllm
