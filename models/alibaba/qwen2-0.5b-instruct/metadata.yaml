@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: qwen2-0.5b-instruct
 spec:
+  config:
+    maxTokens: 4096
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:

@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: deepseek-r1-distill-qwen-32b
 spec:
+  config:
+    maxTokens: 16384
   deployments:
   - customRuntimeArgs:
     - --max-model-len=32768

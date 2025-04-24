@@ -92,6 +92,7 @@ const (
 	RerankModel    ModelSpecTag = "RERANK_MODEL"
 	AudioToAudio   ModelSpecTag = "AUDIO_TO_AUDIO"
 	AudioToText    ModelSpecTag = "AUDIO_TO_TEXT"
+	TOOLS          ModelSpecTag = "TOOLS"
 )
 
 type Descriptor struct {
@@ -124,7 +125,12 @@ type ModelSpecSpec struct {
 	// descriptor contains metadata about the model
 	Descriptor Descriptor `json:"descriptor"`
 	// source indicates where to get the model weights
-	Source Source `json:"source"`
+	Source Source      `json:"source"`
+	Config ModelConfig `json:"config,omitempty"`
+}
+
+type ModelConfig struct {
+	MaxTokens int `json:"maxTokens,omitempty"`
 }
 
 // +kubebuilder:object:root=true

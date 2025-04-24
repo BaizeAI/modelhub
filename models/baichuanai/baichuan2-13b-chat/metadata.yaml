@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: baichuan2-13b-chat
 spec:
+  config:
+    maxTokens: 4096
   deployments:
   - customRuntimeArgs:
     - --chat-template

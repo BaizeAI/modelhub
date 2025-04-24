@@ -73,5 +73,6 @@ spec:
     # RERANK_MODEL      // 重排模型
     # AUDIO_TO_AUDIO    // 语音合成模型
     # AUDIO_TO_TEXT     // 语音识别模型
+    # TOOLS             // 支持工具调用
     tags:
     - TEXT_GENERATION

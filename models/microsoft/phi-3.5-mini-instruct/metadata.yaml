@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: phi-3.5-mini-instruct
 spec:
+  config:
+    maxTokens: 131072
   deployments:
   - customRuntimeArgs:
     - --max-model-len=4096
