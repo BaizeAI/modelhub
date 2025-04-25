@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: minimax-text-01
 spec:
+  config:
+    maxTokens: 40960000
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:

@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: qwen2.5-coder-32b-instruct
 spec:
+  config:
+    maxTokens: 32768
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
@@ -32,6 +34,7 @@ spec:
         zhCN: 通义千问
     tags:
     - TEXT_GENERATION
+    - TOOLS
   source:
     huggingface:
       name: Qwen/Qwen2.5-Coder-32B-Instruct

@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: qwq-32b
 spec:
+  config:
+    maxTokens: 131072
   deployments:
   - customRuntimeArgs:
     - --max-model-len=32768
@@ -36,6 +38,7 @@ spec:
         zhCN: 通义千问
     tags:
     - TEXT_GENERATION
+    - TOOLS
   source:
     huggingface:
       name: Qwen/QwQ-32B

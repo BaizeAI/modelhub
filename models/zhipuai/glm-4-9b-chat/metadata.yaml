@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: glm-4-9b-chat
 spec:
+  config:
+    maxTokens: 128000
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:

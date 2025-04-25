@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: deepseek-r1
 spec:
+  config:
+    maxTokens: 16384
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:

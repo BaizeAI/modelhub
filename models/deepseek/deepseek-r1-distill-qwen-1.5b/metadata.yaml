@@ -3,6 +3,8 @@ kind: ModelSpec
 metadata:
   name: deepseek-r1-distill-qwen-1.5b
 spec:
+  config:
+    maxTokens: 16384
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
