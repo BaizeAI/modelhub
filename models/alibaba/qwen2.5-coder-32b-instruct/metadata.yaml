@@ -6,7 +6,10 @@ spec:
   config:
     maxTokens: 32768
   deployments:
-  - customRuntimeArgs: []
+  - customRuntimeArgs:
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - hermes
     resourceRequirements:
       cpu: 1
       gpuCount: 2
