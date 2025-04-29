@@ -10,6 +10,11 @@ spec:
     - --max-model-len=4096
     - --max-num-seqs=16
     - --enforce-eager
+    - --enable-auto-tool-choice
+    - --tool-call-parser
+    - llama3_json
+    - --chat-template
+    - examples/tool_chat_template_llama3.2_json.jinja
     resourceRequirements:
       cpu: 1
       gpuCount: 1
