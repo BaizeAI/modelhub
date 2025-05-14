@@ -29,18 +29,31 @@ jobs:
       - name: Get changed metadata files
         id: changed-files
         run: |
-          # Get the list of changed metadata.yaml files
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E 'metadata\.yaml$' || true)
+          # Get the list of changed metadata.yaml files and exclude deleted files
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E 'metadata\.yaml$' || true)
           echo "Changed metadata files: $CHANGED_FILES"
           
-          # Store the list of changed files
-          echo "files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          # Verify files exist (extra safety check)
+          EXISTING_FILES=""
+          while read -r file; do
+            if [ -n "$file" ] && [ -f "$file" ]; then
+              if [ -n "$EXISTING_FILES" ]; then
+                EXISTING_FILES="$EXISTING_FILES\n$file"
+              else
+                EXISTING_FILES="$file"
+              fi
+              echo "File exists: $file"
+            elif [ -n "$file" ]; then
+              echo "File does not exist (will be skipped): $file"
+            fi
+          done <<< "$CHANGED_FILES"
+          
+          # Format the files for GitHub output (replace newlines with commas for the files output)
+          FILES_CSV=$(echo -e "$EXISTING_FILES" | tr '\n' ',' | sed 's/,$//')
+          echo "files=$FILES_CSV" >> $GITHUB_OUTPUT
           
           # Count the number of changed files
-          COUNT=$(echo "$CHANGED_FILES" | wc -l)
-          if [ -z "$CHANGED_FILES" ]; then
-            COUNT=0
-          fi
+          COUNT=$(echo -e "$EXISTING_FILES" | grep -v '^$' | wc -l)
           echo "Number of changed metadata files: $COUNT"
           echo "count=$COUNT" >> $GITHUB_OUTPUT
 
@@ -96,7 +109,8 @@ jobs:
           
           # Run validation on all changed files
           echo "Validating metadata files against schema..."
-          python validate_metadata.py ${{ steps.changed-files.outputs.files }}
+          IFS=',' read -ra FILE_ARRAY <<< "${{ steps.changed-files.outputs.files }}"
+          python validate_metadata.py "${FILE_ARRAY[@]}"
 
       - name: Check model directory structure
         if: steps.changed-files.outputs.count != '0'
@@ -159,7 +173,8 @@ jobs:
           
           # Run directory structure validation
           echo "Validating directory structure..."
-          python validate_structure.py ${{ steps.changed-files.outputs.files }}
+          IFS=',' read -ra FILE_ARRAY <<< "${{ steps.changed-files.outputs.files }}"
+          python validate_structure.py "${FILE_ARRAY[@]}"
 
       - name: Validate source links
         if: steps.changed-files.outputs.count != '0'
@@ -283,7 +298,8 @@ jobs:
           
           # Run source links validation (optional, won't fail the build)
           echo "Validating source links..."
-          python validate_sources.py ${{ steps.changed-files.outputs.files }} || true
+          IFS=',' read -ra FILE_ARRAY <<< "${{ steps.changed-files.outputs.files }}"
+          python validate_sources.py "${FILE_ARRAY[@]}" || true
 
       - name: Validate model name consistency
         if: steps.changed-files.outputs.count != '0'
@@ -368,7 +384,8 @@ jobs:
           
           # Run model name consistency validation
           echo "Validating model name consistency..."
-          python validate_consistency.py ${{ steps.changed-files.outputs.files }}
+          IFS=',' read -ra FILE_ARRAY <<< "${{ steps.changed-files.outputs.files }}"
+          python validate_consistency.py "${FILE_ARRAY[@]}"
 
       - name: Comment on PR
         uses: actions/github-script@v7
@@ -380,32 +397,34 @@ jobs:
             
             // Run the validation scripts again to capture output
             let validationOutput = "";
+            const fileArray = '${{ steps.changed-files.outputs.files }}'.split(',').filter(Boolean);
+            const filesArg = fileArray.join(' ');
             
             try {
-              validationOutput += execSync('python validate_metadata.py ${{ steps.changed-files.outputs.files }}').toString();
+              validationOutput += execSync(`python validate_metadata.py ${filesArg}`).toString();
             } catch (error) {
-              validationOutput += error.stdout.toString();
+              validationOutput += error.stdout ? error.stdout.toString() : error.message;
             }
             
             try {
-              validationOutput += "\n\n" + execSync('python validate_structure.py ${{ steps.changed-files.outputs.files }}').toString();
+              validationOutput += "\n\n" + execSync(`python validate_structure.py ${filesArg}`).toString();
             } catch (error) {
-              validationOutput += "\n\n" + error.stdout.toString();
+              validationOutput += "\n\n" + (error.stdout ? error.stdout.toString() : error.message);
             }
             
             try {
-              validationOutput += "\n\n" + execSync('python validate_sources.py ${{ steps.changed-files.outputs.files }}').toString();
+              validationOutput += "\n\n" + execSync(`python validate_sources.py ${filesArg}`).toString();
             } catch (error) {
-              validationOutput += "\n\n" + error.stdout.toString();
+              validationOutput += "\n\n" + (error.stdout ? error.stdout.toString() : error.message);
             }
             
             try {
-              validationOutput += "\n\n" + execSync('python validate_consistency.py ${{ steps.changed-files.outputs.files }}').toString();
+              validationOutput += "\n\n" + execSync(`python validate_consistency.py ${filesArg}`).toString();
             } catch (error) {
-              validationOutput += "\n\n" + error.stdout.toString();
+              validationOutput += "\n\n" + (error.stdout ? error.stdout.toString() : error.message);
             }
             
-            const changedFiles = '${{ steps.changed-files.outputs.files }}'.split('\n').filter(Boolean);
+            const changedFiles = '${{ steps.changed-files.outputs.files }}'.split(',').filter(Boolean);
             
             let body = `## Model Metadata Validation Results\n\n`;
             
