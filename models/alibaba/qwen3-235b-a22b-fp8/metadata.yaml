@@ -1,0 +1,38 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen3-235b-a22b-fp8
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support.
+      zhCN: Qwen3是通义系列最新一代大语言模型，提供了一整套稠密和混合专家（MoE）模型。基于大量训练，Qwen3在推理、指令跟随、智能体能力和多语言支持方面取得了突破性进展。
+    display: Qwen3-235B-A22B-FP8
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: Qwen/Qwen3-235B-A22B-FP8
+    modelscope:
+      name: Qwen/Qwen3-235B-A22B-FP8
