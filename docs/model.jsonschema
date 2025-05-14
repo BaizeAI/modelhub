@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "object",
+          "properties": {
+            "modelscope": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            "huggingface": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          },
+          "required": [
+            "modelscope",
+            "huggingface"
+          ]
+        },
+        "deployments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "runtime": {
+                "type": "string"
+              },
+              "versionRequired": {
+                "type": "string"
+              },
+              "resourceRequirements": {
+                "type": "object",
+                "properties": {
+                  "gpuType": {
+                    "type": "string"
+                  },
+                  "gpuCount": {
+                    "type": "number"
+                  },
+                  "perGPUMemoryGB": {
+                    "type": "number"
+                  },
+                  "cpu": {
+                    "type": "number"
+                  },
+                  "memory": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "gpuType",
+                  "gpuCount",
+                  "perGPUMemoryGB",
+                  "cpu",
+                  "memory"
+                ]
+              },
+              "customRuntimeArgs": {
+                "type": "array",
+                "items": {}
+              }
+            },
+            "required": [
+              "runtime",
+              "versionRequired",
+              "resourceRequirements",
+              "customRuntimeArgs"
+            ]
+          }
+        },
+        "descriptor": {
+          "type": "object",
+          "properties": {
+            "display": {
+              "type": "string"
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "description",
+                  "url"
+                ]
+              }
+            },
+            "description": {
+              "type": "object",
+              "properties": {
+                "enUS": {
+                  "type": "string"
+                },
+                "zhCN": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "enUS",
+                "zhCN"
+              ]
+            },
+            "icon": {
+              "type": "object",
+              "properties": {
+                "src": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "src",
+                "type"
+              ]
+            },
+            "provider": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "object",
+                  "properties": {
+                    "zhCN": {
+                      "type": "string"
+                    },
+                    "enUS": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "zhCN",
+                    "enUS"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "name"
+              ]
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "TEXT_GENERATION",
+                  "VIDEO_TO_TEXT",
+                  "TEXT_TO_VIDEO",
+                  "IMAGE_TO_IMAGE",
+                  "IMAGE_TO_TEXT",
+                  "TEXT_TO_IMAGE",
+                  "EMBEDDING",
+                  "RERANK_MODEL",
+                  "AUDIO_TO_AUDIO",
+                  "AUDIO_TO_TEXT"
+                ]
+              }
+            }
+          },
+          "required": [
+            "display",
+            "links",
+            "description",
+            "icon",
+            "provider",
+            "tags"
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "deployments",
+        "descriptor"
+      ]
+    }
+  },
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ]
+}
