@@ -1,0 +1,17 @@
+# Base requirements for model metadata validation and generation
+pyyaml>=6.0
+jsonschema>=4.17.3
+requests>=2.28.2
+
+# For Hugging Face model information retrieval
+huggingface-hub>=0.14.1
+
+# For HTML and Markdown parsing (used in description generation)
+beautifulsoup4>=4.12.0
+markdown>=3.4.3
+
+# For GitHub API interaction in auto-model-request workflow
+PyGithub>=1.59.0 
+
+# Utility libraries
+tqdm>=4.65.0
