@@ -1,0 +1,434 @@
+name: Validate Model Metadata
+
+on:
+  pull_request:
+    paths:
+      - '**/metadata.yaml'
+      - 'models/**/metadata.yaml'
+
+jobs:
+  validate-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema pyyaml
+
+      - name: Get changed metadata files
+        id: changed-files
+        run: |
+          # Get the list of changed metadata.yaml files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -E 'metadata\.yaml$' || true)
+          echo "Changed metadata files: $CHANGED_FILES"
+          
+          # Store the list of changed files
+          echo "files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          
+          # Count the number of changed files
+          COUNT=$(echo "$CHANGED_FILES" | wc -l)
+          if [ -z "$CHANGED_FILES" ]; then
+            COUNT=0
+          fi
+          echo "Number of changed metadata files: $COUNT"
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Validate metadata files
+        if: steps.changed-files.outputs.count != '0'
+        run: |
+          # Create validation script
+          cat > validate_metadata.py << 'EOF'
+          import sys
+          import json
+          import yaml
+          import jsonschema
+          from jsonschema import validate
+          
+          def load_schema():
+              with open('docs/model.jsonschema', 'r') as schema_file:
+                  return json.load(schema_file)
+              
+          def load_yaml(file_path):
+              with open(file_path, 'r') as yaml_file:
+                  return yaml.safe_load(yaml_file)
+              
+          def validate_metadata(schema, metadata_file):
+              try:
+                  metadata = load_yaml(metadata_file)
+                  validate(instance=metadata, schema=schema)
+                  print(f"✅ {metadata_file} - Valid")
+                  return True
+              except jsonschema.exceptions.ValidationError as e:
+                  print(f"❌ {metadata_file} - Invalid")
+                  print(f"Error: {e}")
+                  return False
+              except Exception as e:
+                  print(f"❌ {metadata_file} - Error loading or parsing")
+                  print(f"Error: {e}")
+                  return False
+          
+          def main():
+              schema = load_schema()
+              files = sys.argv[1:]
+              
+              all_valid = True
+              for file in files:
+                  if not validate_metadata(schema, file):
+                      all_valid = False
+              
+              if not all_valid:
+                  sys.exit(1)
+              
+          if __name__ == "__main__":
+              main()
+          EOF
+          
+          # Run validation on all changed files
+          echo "Validating metadata files against schema..."
+          python validate_metadata.py ${{ steps.changed-files.outputs.files }}
+
+      - name: Check model directory structure
+        if: steps.changed-files.outputs.count != '0'
+        run: |
+          # Create directory structure validation script
+          cat > validate_structure.py << 'EOF'
+          import sys
+          import os
+          import re
+          
+          def validate_directory_structure(file_path):
+              # Expected pattern: models/{provider}/{model_id}/metadata.yaml
+              pattern = r'^models/[a-z0-9-_]+/[a-z0-9-_.]+/metadata\.yaml$'
+              if not re.match(pattern, file_path):
+                  print(f"❌ {file_path} - Invalid directory structure")
+                  print(f"   Expected pattern: models/{{provider}}/{{model_id}}/metadata.yaml")
+                  return False
+              
+              # Validate that model_id in path matches metadata.name
+              import yaml
+              try:
+                  with open(file_path, 'r') as f:
+                      metadata = yaml.safe_load(f)
+                      
+                  path_parts = file_path.split('/')
+                  provider_dir = path_parts[1]
+                  model_dir = path_parts[2]
+                  
+                  metadata_name = metadata.get('metadata', {}).get('name')
+                  metadata_provider = metadata.get('spec', {}).get('descriptor', {}).get('provider', {}).get('id')
+                  
+                  if model_dir != metadata_name:
+                      print(f"❌ {file_path} - Directory name ({model_dir}) doesn't match metadata.name ({metadata_name})")
+                      return False
+                      
+                  if provider_dir != metadata_provider:
+                      print(f"❌ {file_path} - Provider directory ({provider_dir}) doesn't match spec.descriptor.provider.id ({metadata_provider})")
+                      return False
+                      
+                  print(f"✅ {file_path} - Valid directory structure")
+                  return True
+              except Exception as e:
+                  print(f"❌ {file_path} - Error checking directory structure: {e}")
+                  return False
+          
+          def main():
+              files = sys.argv[1:]
+              all_valid = True
+              
+              for file in files:
+                  if not validate_directory_structure(file):
+                      all_valid = False
+              
+              if not all_valid:
+                  sys.exit(1)
+          
+          if __name__ == "__main__":
+              main()
+          EOF
+          
+          # Run directory structure validation
+          echo "Validating directory structure..."
+          python validate_structure.py ${{ steps.changed-files.outputs.files }}
+
+      - name: Validate source links
+        if: steps.changed-files.outputs.count != '0'
+        run: |
+          # Create source links validation script
+          cat > validate_sources.py << 'EOF'
+          import sys
+          import yaml
+          import requests
+          import re
+          
+          def validate_source_links(file_path):
+              try:
+                  with open(file_path, 'r') as f:
+                      metadata = yaml.safe_load(f)
+                  
+                  # Extract source links
+                  sources = metadata.get('spec', {}).get('source', {})
+                  hf_name = sources.get('huggingface', {}).get('name')
+                  ms_name = sources.get('modelscope', {}).get('name')
+                  
+                  all_valid = True
+                  
+                  # Check Hugging Face source
+                  if hf_name:
+                      # Verify format - should be org/model_name
+                      if not re.match(r'^[A-Za-z0-9_\-\.]+/[A-Za-z0-9_\-\.]+$', hf_name):
+                          print(f"❌ {file_path} - Invalid Hugging Face name format: {hf_name}")
+                          print(f"   Expected format: organization/model-name")
+                          all_valid = False
+                      else:
+                          # Check for specific characters that might cause issues
+                          if re.search(r'[^\w\-\./]', hf_name):
+                              print(f"❌ {file_path} - Hugging Face name contains invalid characters: {hf_name}")
+                              print(f"   Only alphanumeric characters, hyphens, underscores, dots, and forward slashes are allowed")
+                              all_valid = False
+                      
+                      hf_url = f"https://huggingface.co/{hf_name}"
+                      try:
+                          response = requests.head(hf_url, timeout=10)
+                          if response.status_code == 200:
+                              print(f"✅ {file_path} - Valid Hugging Face source: {hf_name}")
+                          else:
+                              print(f"⚠️ {file_path} - Hugging Face source might be invalid: {hf_name} (Status: {response.status_code})")
+                              # Don't fail because the model might not be public
+                      except Exception as e:
+                          print(f"⚠️ {file_path} - Error checking Hugging Face source: {e}")
+                  
+                  # Check ModelScope source
+                  if ms_name:
+                      # Verify format - should be org/model_name
+                      if not re.match(r'^[A-Za-z0-9_\-\.]+/[A-Za-z0-9_\-\.]+$', ms_name):
+                          print(f"❌ {file_path} - Invalid ModelScope name format: {ms_name}")
+                          print(f"   Expected format: organization/model-name")
+                          all_valid = False
+                      else:
+                          # Specific ModelScope format validation
+                          org, model = ms_name.split('/')
+                          
+                          # Check organization name format
+                          if not re.match(r'^[A-Za-z0-9_\-\.]+$', org):
+                              print(f"❌ {file_path} - Invalid ModelScope organization format: {org}")
+                              print(f"   Only alphanumeric characters, hyphens, underscores and dots are allowed")
+                              all_valid = False
+                          
+                          # Check model name format (slightly stricter than Hugging Face)
+                          if not re.match(r'^[A-Za-z0-9_\-\.]+$', model):
+                              print(f"❌ {file_path} - Invalid ModelScope model ID format: {model}")
+                              print(f"   Only alphanumeric characters, hyphens, underscores and dots are allowed")
+                              all_valid = False
+                      
+                      # Check consistency between Hugging Face and ModelScope names
+                      if hf_name:
+                          hf_parts = hf_name.split('/')
+                          ms_parts = ms_name.split('/')
+                          
+                          # Compare normalized organization names
+                          hf_org = hf_parts[0].lower()
+                          ms_org = ms_parts[0].lower()
+                          if hf_org != ms_org:
+                              print(f"⚠️ {file_path} - Organization names differ: HF:{hf_org} vs MS:{ms_org}")
+                          
+                          # Compare normalized model names
+                          hf_model = hf_parts[1].lower().replace('.', '-')
+                          ms_model = ms_parts[1].lower().replace('.', '-')
+                          if hf_model != ms_model:
+                              print(f"⚠️ {file_path} - Model IDs differ: HF:{hf_model} vs MS:{ms_model}")
+                          
+                      # Verify ModelScope URL
+                      ms_url = f"https://modelscope.cn/models/{ms_name}/summary"
+                      try:
+                          response = requests.head(ms_url, timeout=10)
+                          if response.status_code < 400:  # Accept any non-error response
+                              print(f"✅ {file_path} - Valid ModelScope source: {ms_name}")
+                          else:
+                              print(f"⚠️ {file_path} - ModelScope source might be invalid: {ms_name} (Status: {response.status_code})")
+                              # Don't fail because the model might not be public
+                      except Exception as e:
+                          print(f"⚠️ {file_path} - Error checking ModelScope source: {e}")
+                  else:
+                      print(f"❌ {file_path} - Missing ModelScope source name")
+                      all_valid = False
+                  
+                  return all_valid
+              except Exception as e:
+                  print(f"❌ {file_path} - Error validating sources: {e}")
+                  return False
+          
+          def main():
+              files = sys.argv[1:]
+              all_valid = True
+              
+              for file in files:
+                  if not validate_source_links(file):
+                      # Just warn about invalid links, don't fail the build
+                      pass
+              
+          if __name__ == "__main__":
+              main()
+          EOF
+          
+          # Run source links validation (optional, won't fail the build)
+          echo "Validating source links..."
+          python validate_sources.py ${{ steps.changed-files.outputs.files }} || true
+
+      - name: Validate model name consistency
+        if: steps.changed-files.outputs.count != '0'
+        run: |
+          # Create model name consistency validation script
+          cat > validate_consistency.py << 'EOF'
+          import sys
+          import os
+          import yaml
+          
+          def validate_model_name_consistency(file_path):
+              try:
+                  with open(file_path, 'r') as f:
+                      metadata = yaml.safe_load(f)
+                  
+                  # Extract relevant fields
+                  model_id = metadata.get('metadata', {}).get('name')
+                  display_name = metadata.get('spec', {}).get('descriptor', {}).get('display')
+                  hf_name = metadata.get('spec', {}).get('source', {}).get('huggingface', {}).get('name')
+                  ms_name = metadata.get('spec', {}).get('source', {}).get('modelscope', {}).get('name')
+                  
+                  all_valid = True
+                  
+                  # Check if source names are present
+                  if not hf_name:
+                      print(f"❌ {file_path} - Missing Hugging Face source name")
+                      all_valid = False
+                  
+                  if not ms_name:
+                      print(f"❌ {file_path} - Missing ModelScope source name")
+                      all_valid = False
+                  
+                  # Validate source names match each other
+                  if hf_name and ms_name and hf_name != ms_name:
+                      print(f"⚠️ {file_path} - Hugging Face name ({hf_name}) and ModelScope name ({ms_name}) don't match")
+                  
+                  # Check if model_id matches the last part of source names
+                  if hf_name:
+                      hf_model_id = hf_name.split('/')[-1].lower().replace('.', '-')
+                      if model_id != hf_model_id:
+                          print(f"⚠️ {file_path} - Metadata name ({model_id}) doesn't match the normalized Hugging Face model ID ({hf_model_id})")
+                          # Not failing on this as there might be valid reasons for differences
+                  
+                  # Verify that display name exists and is related to source names
+                  if not display_name:
+                      print(f"❌ {file_path} - Missing display name")
+                      all_valid = False
+                  elif hf_name:
+                      hf_display = hf_name.split('/')[-1]
+                      if hf_display.lower() != display_name.lower() and hf_display.lower().replace('-', '') != display_name.lower().replace('-', ''):
+                          print(f"⚠️ {file_path} - Display name ({display_name}) doesn't seem to match the Hugging Face model name ({hf_display})")
+                          # Just a warning, not a failure
+                  
+                  # Verify directory structure matches model ID
+                  dir_path = os.path.dirname(file_path)
+                  expected_dir_name = model_id
+                  actual_dir_name = os.path.basename(dir_path)
+                  
+                  if actual_dir_name != expected_dir_name:
+                      print(f"❌ {file_path} - Directory name ({actual_dir_name}) doesn't match metadata name ({expected_dir_name})")
+                      all_valid = False
+                  
+                  return all_valid
+              except Exception as e:
+                  print(f"❌ {file_path} - Error validating model name consistency: {e}")
+                  return False
+          
+          def main():
+              files = sys.argv[1:]
+              all_valid = True
+              
+              for file in files:
+                  if not validate_model_name_consistency(file):
+                      all_valid = False
+              
+              if not all_valid:
+                  sys.exit(1)
+          
+          if __name__ == "__main__":
+              main()
+          EOF
+          
+          # Run model name consistency validation
+          echo "Validating model name consistency..."
+          python validate_consistency.py ${{ steps.changed-files.outputs.files }}
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        if: steps.changed-files.outputs.count != '0'
+        with:
+          script: |
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+            
+            // Run the validation scripts again to capture output
+            let validationOutput = "";
+            
+            try {
+              validationOutput += execSync('python validate_metadata.py ${{ steps.changed-files.outputs.files }}').toString();
+            } catch (error) {
+              validationOutput += error.stdout.toString();
+            }
+            
+            try {
+              validationOutput += "\n\n" + execSync('python validate_structure.py ${{ steps.changed-files.outputs.files }}').toString();
+            } catch (error) {
+              validationOutput += "\n\n" + error.stdout.toString();
+            }
+            
+            try {
+              validationOutput += "\n\n" + execSync('python validate_sources.py ${{ steps.changed-files.outputs.files }}').toString();
+            } catch (error) {
+              validationOutput += "\n\n" + error.stdout.toString();
+            }
+            
+            try {
+              validationOutput += "\n\n" + execSync('python validate_consistency.py ${{ steps.changed-files.outputs.files }}').toString();
+            } catch (error) {
+              validationOutput += "\n\n" + error.stdout.toString();
+            }
+            
+            const changedFiles = '${{ steps.changed-files.outputs.files }}'.split('\n').filter(Boolean);
+            
+            let body = `## Model Metadata Validation Results\n\n`;
+            
+            if (validationOutput.includes('❌')) {
+              body += `⚠️ **Validation failed!** Please fix the issues below:\n\n`;
+            } else {
+              body += `✅ **All validations passed!**\n\n`;
+            }
+            
+            body += "### Changed files:\n";
+            changedFiles.forEach(file => {
+              body += `- \`${file}\`\n`;
+            });
+            
+            body += "\n### Validation output:\n\n```\n";
+            body += validationOutput;
+            body += "\n```\n\n";
+            
+            body += "Please make sure all metadata files conform to the schema defined in `docs/model.jsonschema`.";
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
