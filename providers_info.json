@@ -1,0 +1,118 @@
+{
+  "providers": {
+    "baichuanai": {
+      "icon": "https://public-resources.d.run/models/logos/baichuan-model-logo.svg",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://github.com/baichuan-inc"
+        }
+      ],
+      "name": {
+        "enUS": "BaichuanAI",
+        "zhCN": "百川智能"
+      }
+    },
+    "zhipuai": {
+      "icon": "https://public-resources.d.run/models/logos/glm-model-logo.png",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://www.zhipu.ai"
+        }
+      ],
+      "name": {
+        "enUS": "ZhipuAI",
+        "zhCN": "智谱AI"
+      }
+    },
+    "meta": {
+      "icon": "https://public-resources.d.run/models/logos/llama-model-logo.svg",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://ai.meta.com/llama/"
+        }
+      ],
+      "name": {
+        "enUS": "Meta",
+        "zhCN": "Meta"
+      }
+    },
+    "microsoft": {
+      "icon": "https://public-resources.d.run/models/logos/phi-model-logo.svg",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://www.microsoft.com/en-us/research/"
+        }
+      ],
+      "name": {
+        "enUS": "Microsoft",
+        "zhCN": "微软"
+      }
+    },
+    "deepseek": {
+      "icon": "https://public-resources.d.run/models/logos/deepseek-model-logo.svg",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://www.deepseek.com/"
+        }
+      ],
+      "name": {
+        "enUS": "DeepSeek",
+        "zhCN": "深度求索"
+      }
+    },
+    "hidream": {
+      "icon": "https://public-resources.d.run/models/logos/hidream-logo.webp",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://hidreamai.com/explore"
+        }
+      ],
+      "name": {
+        "enUS": "HiDream.ai",
+        "zhCN": "HiDream.ai"
+      }
+    },
+    "alibaba": {
+      "icon": "https://public-resources.d.run/models/logos/qwen-model-logo.svg",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://github.com/QwenLM"
+        }
+      ],
+      "name": {
+        "enUS": "Alibaba",
+        "zhCN": "通义千问"
+      }
+    },
+    "minimax": {
+      "icon": "https://public-resources.d.run/models/logos/minimax-logo.webp",
+      "links": [
+        {
+          "description": "About",
+          "url": "https://www.minimaxi.com/"
+        }
+      ],
+      "name": {
+        "enUS": "MiniMax",
+        "zhCN": "稀宇科技"
+      }
+    }
+  },
+  "mappings": {
+    "baichuan-inc": "baichuanai",
+    "thudm": "zhipuai",
+    "meta-llama": "meta",
+    "microsoft": "microsoft",
+    "deepseek-ai": "deepseek",
+    "hidream-ai": "hidream",
+    "qwen": "alibaba",
+    "minimaxai": "minimax"
+  }
+}
