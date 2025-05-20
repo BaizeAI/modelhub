@@ -457,21 +457,52 @@ jobs:
           rm -f generate_metadata.py
         
           
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Only add the metadata.yaml file that we generated
+          git add "models/*.yaml"
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          # Commit the changes
+          git commit -m "Add metadata for ${{ env.MODEL_NAME }}"
+          
+          # Push the changes
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
+        id: create-pr
+        uses: actions/github-script@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Add metadata for ${{ env.MODEL_NAME }}"
-          base: main
-          branch: ${{ env.BRANCH_NAME }}
-          add-paths: models/*.yaml
-          title: "Add metadata for ${{ env.MODEL_NAME }}"
-          body: |
-            This PR was automatically generated in response to issue #${{ github.event.issue.number }}: REQUEST ${{ env.MODEL_NAME }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { repo, owner } = context.repo;
+            const result = await github.rest.pulls.create({
+              owner,
+              repo,
+              title: `Add metadata for ${{ env.MODEL_NAME }}`,
+              body: `This PR was automatically generated in response to issue #${{ github.event.issue.number }}: REQUEST ${{ env.MODEL_NAME }}\n\nThe metadata file was automatically generated based on information from Hugging Face.\nPlease review the changes and make any necessary adjustments before merging.`,
+              head: '${{ env.BRANCH_NAME }}',
+              base: 'main'
+            });
             
-            The metadata file was automatically generated based on information from Hugging Face.
-            Please review the changes and make any necessary adjustments before merging.
-          labels: automated-pr, model-request
+            // Set output
+            core.setOutput('pull-request-number', result.data.number);
+            
+            // Add labels
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: result.data.number,
+              labels: ['automated-pr', 'model-request']
+            });
           
       - name: Comment on the issue
         uses: peter-evans/create-or-update-comment@v3
