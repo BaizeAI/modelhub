@@ -1,0 +1,50 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: wan2-1-vace-14b
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: '💜 Wan &nbsp&nbsp ｜ &nbsp&nbsp 🖥️ GitHub &nbsp&nbsp | &nbsp&nbsp🤗 Hugging
+        Face &nbsp&nbsp | &nbsp&nbsp🤖 ModelScope &nbsp&nbsp | &nbsp&nbsp 📑 Technical
+        Report &nbsp&nbsp | &nbsp&nbsp 📑 Blog &nbsp&nbsp | &nbsp&nbsp💬 WeChat Group
+        &nbsp&nbsp | &nbsp&nbsp 📖 Discord &nbsp&nbsp [Wan: Open and Advanced Large-Scale
+        Video Generative Models]( In this repository, we present Wan2.1, a comprehensive
+        and open suite of video foundation models that pushes the boundaries of video
+        generation.'
+      zhCN: '💜 Wan &nbsp&nbsp ｜ &nbsp&nbsp 🖥️ GitHub &nbsp&nbsp | &nbsp&nbsp🤗 Hugging
+        Face &nbsp&nbsp | &nbsp&nbsp🤖 ModelScope &nbsp&nbsp | &nbsp&nbsp 📑 Technical
+        Report &nbsp&nbsp | &nbsp&nbsp 📑 Blog &nbsp&nbsp | &nbsp&nbsp💬 WeChat Group
+        &nbsp&nbsp | &nbsp&nbsp 📖 Discord &nbsp&nbsp [Wan: Open and Advanced Large-Scale
+        Video Generative Models]( In this repository, we present Wan2.1, a comprehensive
+        and open suite of video foundation models that pushes the boundaries of video
+        generation.'
+    display: Wan2.1-VACE-14B
+    icon:
+      src: https://public-resources.d.run/models/logos/wan-ai-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/Wan-AI
+    provider:
+      id: wan-ai
+      name:
+        enUS: Wan-ai
+        zhCN: Wan-ai
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: Wan-AI/Wan2.1-VACE-14B
+    modelscope:
+      name: Wan-AI/Wan2.1-VACE-14B
