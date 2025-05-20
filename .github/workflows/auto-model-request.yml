@@ -456,6 +456,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Add metadata for ${{ env.MODEL_NAME }}"
+          base: main
           branch: ${{ env.BRANCH_NAME }}
           title: "Add metadata for ${{ env.MODEL_NAME }}"
           body: |
