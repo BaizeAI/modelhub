@@ -151,6 +151,7 @@ jobs:
           import yaml
           import json
           import requests
+          import re
           from huggingface_hub import HfApi
 
           def get_readme_content(model_name):
@@ -197,7 +198,6 @@ jobs:
               
               In a production environment, you'd use an LLM API like OpenAI to generate a better summary.
               """
-              import re
               
               if not readme_content:
                   return f"A large language model from {model_name.split('/')[0]}."
@@ -275,7 +275,13 @@ jobs:
                       
                       # Extract tags
                       if model_info.tags:
-                          tags = model_info.tags
+                          # Filter to valid tags
+                          valid_tags = ["TEXT_GENERATION", "VIDEO_TO_TEXT", "TEXT_TO_VIDEO", 
+                                      "IMAGE_TO_IMAGE", "IMAGE_TO_TEXT", "TEXT_TO_IMAGE", 
+                                      "EMBEDDING", "RERANK_MODEL", "AUDIO_TO_AUDIO", "AUDIO_TO_TEXT"]
+                          tags = [tag for tag in model_info.tags if tag in valid_tags]
+                          if not tags:
+                              tags = ["TEXT_GENERATION"]  # Default if no valid tags
                       
                       # Do NOT use model_info.description directly as it might be a Python object
                   except Exception as e:
@@ -443,13 +449,13 @@ jobs:
           
           python generate_metadata.py
           
-      - name: Commit and push changes
+      - name: Clean up
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add models/
-          git commit -m "Auto-add model metadata for ${{ env.MODEL_NAME }}"
-          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+          # Remove temporary files to prevent them from being staged
+          rm -f collect_providers.py
+          rm -f providers_info.json
+          rm -f generate_metadata.py
+        
           
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
@@ -458,6 +464,7 @@ jobs:
           commit-message: "Add metadata for ${{ env.MODEL_NAME }}"
           base: main
           branch: ${{ env.BRANCH_NAME }}
+          add-paths: models/*.yaml
           title: "Add metadata for ${{ env.MODEL_NAME }}"
           body: |
             This PR was automatically generated in response to issue #${{ github.event.issue.number }}: REQUEST ${{ env.MODEL_NAME }}
@@ -473,6 +480,6 @@ jobs:
           body: |
             Thank you for your model request!
             
-            I've automatically generated metadata for the model `${{ env.MODEL_NAME }}` and created a pull request.
+            I've automatically generated metadata for the model `${{ env.MODEL_NAME }}` and created a pull request #${{ steps.create-pr.outputs.pull-request-number }}.
             
             Once the PR is approved and merged, the model will be available in the modelhub.
