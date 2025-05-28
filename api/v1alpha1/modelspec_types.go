@@ -17,6 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -52,6 +53,8 @@ type Deployment struct {
 	Runtime DeploymentRuntime `json:"runtime"`
 	// versionRequired is the version of the runtime required to run the model
 	VersionRequired string `json:"versionRequired"`
+	// Env contains environment variables to set for the model deployment
+	Env []corev1.EnvVar `json:"env,omitempty"`
 }
 
 type Description struct {

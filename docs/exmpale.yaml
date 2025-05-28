@@ -11,6 +11,9 @@ spec:
   deployments: # Define deployment policies, runtime and resource requirements and optimizations, etc.
     - runtime: vllm # runtime, current support sglang or vllm
       versionRequired: '>=0.7.1' # semver match for runtime.
+      env: # Define environment variables for the runtime.
+        - name: "VLLM_USE_V1"
+          value: "0"
       resourceRequirements: # Defines the minimum resource requirements for the model to run on different GPUs.
         gpuType: gpu  # GPU type, support gpu,vgpu,metax-gpu currentlly
         gpuCount: 16
