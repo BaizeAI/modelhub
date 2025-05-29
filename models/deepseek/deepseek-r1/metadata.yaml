@@ -22,7 +22,7 @@ spec:
         especially in complex tasks such as mathematics, coding, and natural language
         reasoning.
       zhCN: DeepSeek-R1，是幻方量化旗下AI公司深度求索（DeepSeek）研发的推理模型。DeepSeek-R1采用强化学习进行后训练，旨在提升推理能力，尤其擅长数学、代码和自然语言推理等复杂任务。
-    display: '🔥 DeepSeek-R1 '
+    display: '🔥 DeepSeek-R1-0528'
     icon:
       src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
       type: image/svg
