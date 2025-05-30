@@ -1,0 +1,50 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: deepseek-r1-0528-qwen3-8b
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: The DeepSeek R1 model has undergone a minor version upgrade, with the
+        current version being DeepSeek-R1-0528. In the latest update, DeepSeek R1
+        has significantly improved its depth of reasoning and inference capabilities
+        by leveraging increased computational resources and introducing algorithmic
+        optimization mechanisms during post-training. The model has demonstrated outstanding
+        performance across various benchmark evaluations, including mathematics, programming,
+        and general logic.
+      zhCN: The DeepSeek R1 model has undergone a minor version upgrade, with the
+        current version being DeepSeek-R1-0528. In the latest update, DeepSeek R1
+        has significantly improved its depth of reasoning and inference capabilities
+        by leveraging increased computational resources and introducing algorithmic
+        optimization mechanisms during post-training. The model has demonstrated outstanding
+        performance across various benchmark evaluations, including mathematics, programming,
+        and general logic.
+    display: DeepSeek-R1-0528-Qwen3-8B
+    icon:
+      src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.deepseek.com/
+    provider:
+      id: deepseek
+      name:
+        enUS: DeepSeek
+        zhCN: 深度求索
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+    modelscope:
+      name: deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
