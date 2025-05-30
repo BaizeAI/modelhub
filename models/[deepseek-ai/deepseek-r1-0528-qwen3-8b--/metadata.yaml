@@ -1,0 +1,38 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: deepseek-r1-0528-qwen3-8b]
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: A large language model from [deepseek-ai.
+      zhCN: A large language model from [deepseek-ai.
+    display: DeepSeek-R1-0528-Qwen3-8B]
+    icon:
+      src: https://public-resources.d.run/models/logos/[deepseek-ai-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/[deepseek-ai
+    provider:
+      id: '[deepseek-ai'
+      name:
+        enUS: '[deepseek-ai'
+        zhCN: '[deepseek-ai'
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: '[deepseek-ai/DeepSeek-R1-0528-Qwen3-8B]'
+    modelscope:
+      name: '[deepseek-ai/DeepSeek-R1-0528-Qwen3-8B]'
