@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: dzoo
+spec:
+  config:
+    maxTokens: 32768
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 1
+      gpuType: gpu
+      memory: 64
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  descriptor:
+    description:
+      enUS: DZoo is a LLM of DaoCloud focused on answering product questions about DaoCloud.
+      zhCN: DZoo 是 DaoCloud 的大模型，专注于解答关于 DaoCloud 的产品问题。
+    display: DZoo
+    icon:
+      src: https://public-resources.d.run/models/logos/daocloud-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.daocloud.io/
+    provider:
+      id: daocloud
+      name:
+        enUS: DaoCloud
+        zhCN: DaoCloud
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: DaoCloud/DZoo-32B
+    modelscope:
+      name: DaoCloud/DZoo-32B
