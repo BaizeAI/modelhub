@@ -24,6 +24,9 @@ spec:
       perGPUMemoryGB: 50
     runtime: vllm
     versionRequired: '>=v0.6.5'
+    env:
+    - name: VLLM_FLASH_ATTN_VERSION
+      value: '2'
   descriptor:
     description:
       enUS: A 13B parameter chat model from the Baichuan2 series, focused on Chinese
