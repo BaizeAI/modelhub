@@ -9,7 +9,7 @@ spec:
   - customRuntimeArgs:
     - --max-model-len=4096
     resourceRequirements:
-      cpu: 1
+      cpu: 4
       gpuCount: 1
       gpuType: vgpu
       memory: 16

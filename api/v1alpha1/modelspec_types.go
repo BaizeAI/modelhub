@@ -26,6 +26,8 @@ type ModelSpecGPUType string
 const (
 	NvidiaGPU  ModelSpecGPUType = "gpu"
 	NvidiavGPU ModelSpecGPUType = "vgpu"
+	CPU        ModelSpecGPUType = "cpu"
+	MetaXGPU   ModelSpecGPUType = "metax-gpu"
 )
 
 // TODO: uses quantity.Quantity instead of int

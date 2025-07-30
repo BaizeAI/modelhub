@@ -8,11 +8,29 @@ spec:
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
-      cpu: 1
+      cpu: 4
       gpuCount: 1
       gpuType: vgpu
       memory: 8
       perGPUMemoryGB: 5
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 4
+      gpuCount: 1
+      gpuType: metax-gpu
+      memory: 8
+      perGPUMemoryGB: 5
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 0
+      gpuType: cpu
+      memory: 32
+      perGPUMemoryGB: 0
     runtime: vllm
     versionRequired: '>=v0.6.5'
   descriptor:
