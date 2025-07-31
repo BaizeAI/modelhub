@@ -12,9 +12,22 @@ spec:
     - --enable_reasoning
     - --reasoning_parser=deepseek_r1
     resourceRequirements:
-      cpu: 1
+      cpu: 4
       gpuCount: 1
       gpuType: vgpu
+      memory: 16
+      perGPUMemoryGB: 50
+    runtime: vllm
+    versionRequired: '>=v0.7.1'
+  - customRuntimeArgs:
+    - --max-model-len=32768
+    - --enforce-eager
+    - --enable_reasoning
+    - --reasoning_parser=deepseek_r1
+    resourceRequirements:
+      cpu: 4
+      gpuCount: 1
+      gpuType: metax-gpu
       memory: 16
       perGPUMemoryGB: 50
     runtime: vllm

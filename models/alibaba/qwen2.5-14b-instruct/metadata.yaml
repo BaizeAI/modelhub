@@ -11,9 +11,21 @@ spec:
       - --tool-call-parser
       - hermes
     resourceRequirements:
-      cpu: 1
+      cpu: 4
       gpuCount: 1
       gpuType: vgpu
+      memory: 16
+      perGPUMemoryGB: 50
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  - customRuntimeArgs:
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - hermes
+    resourceRequirements:
+      cpu: 4
+      gpuCount: 1
+      gpuType: metax-gpu
       memory: 16
       perGPUMemoryGB: 50
     runtime: vllm

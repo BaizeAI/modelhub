@@ -11,7 +11,7 @@ spec:
       - --tool-call-parser
       - hermes
     resourceRequirements:
-      cpu: 1
+      cpu: 8
       gpuCount: 2
       gpuType: vgpu
       memory: 16

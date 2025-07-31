@@ -12,9 +12,49 @@
         "metadata": {
             "type": "object",
             "properties": {
-                "name": {
-                    "type": "string"
-                }
+              "runtime": {
+                "type": "string"
+              },
+              "versionRequired": {
+                "type": "string"
+              },
+              "resourceRequirements": {
+                "type": "object",
+                "properties": {
+                  "gpuType": {
+                    "type": "string",
+                    "enum": [
+                      "gpu",
+                      "vgpu",
+                      "cpu",
+                      "metax-gpu"
+                    ]
+                  },
+                  "gpuCount": {
+                    "type": "number"
+                  },
+                  "perGPUMemoryGB": {
+                    "type": "number"
+                  },
+                  "cpu": {
+                    "type": "number"
+                  },
+                  "memory": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "gpuType",
+                  "gpuCount",
+                  "perGPUMemoryGB",
+                  "cpu",
+                  "memory"
+                ]
+              },
+              "customRuntimeArgs": {
+                "type": "array",
+                "items": {}
+              }
             },
             "required": [
                 "name"
@@ -219,7 +259,8 @@
                                     "EMBEDDING",
                                     "RERANK_MODEL",
                                     "AUDIO_TO_AUDIO",
-                                    "AUDIO_TO_TEXT"
+                                    "AUDIO_TO_TEXT",
+                                    "TOOLS"
                                 ]
                             }
                         }

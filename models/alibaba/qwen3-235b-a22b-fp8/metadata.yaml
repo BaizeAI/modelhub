@@ -6,7 +6,7 @@ spec:
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
-      cpu: 8
+      cpu: 16
       gpuCount: 8
       gpuType: nvidia-vgpu
       memory: 640

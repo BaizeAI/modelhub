@@ -17,7 +17,7 @@ spec:
       \ and messages[-1][\"role\"] != \"assistant\" -%}\n    {{- \"<reserved_107>\"\
       \ -}}\n{% endif %}"
     resourceRequirements:
-      cpu: 1
+      cpu: 4
       gpuCount: 1
       gpuType: vgpu
       memory: 16
