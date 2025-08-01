@@ -1,0 +1,44 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen3-coder-30b-a3b-instruct
+spec:
+  config:
+    maxTokens: 32768
+  deployments:
+  - customRuntimeArgs:
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - hermes
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 2
+      gpuType: vgpu
+      memory: 16
+      perGPUMemoryGB: 45
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  descriptor:
+    description:
+      enUS: A 30B parameter coder instruction-tuned model from the Qwen3 series with A3B optimization, specifically designed for advanced code generation, understanding, and debugging tasks.
+      zhCN: Qwen3 系列的 30B 参数编码指令模型，采用 A3B 优化，专为高级代码生成、理解和调试任务设计。
+    display: Qwen3-Coder-30B-A3B-Instruct
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+    - TOOLS
+  source:
+    huggingface:
+      name: Qwen/Qwen3-Coder-30B-A3B-Instruct
+    modelscope:
+      name: Qwen/Qwen3-Coder-30B-A3B-Instruct
