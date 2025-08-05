@@ -12,10 +12,10 @@ spec:
       - hermes
     resourceRequirements:
       cpu: 8
-      gpuCount: 2
+      gpuCount: 1
       gpuType: vgpu
-      memory: 16
-      perGPUMemoryGB: 45
+      memory: 64
+      perGPUMemoryGB: 80
     runtime: vllm
     versionRequired: '>=v0.6.5'
   descriptor:
