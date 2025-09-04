@@ -1,7 +1,7 @@
 apiVersion: model.hydra.io/v1alpha1
 kind: ModelSpec
 metadata:
-  name: Kimi-K2-Instruct
+  name: kimi-k2-instruct
 spec:
   config:
     maxTokens: 128000
