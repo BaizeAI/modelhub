@@ -1,0 +1,42 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: kimi-k2-instruct
+spec:
+  config:
+    maxTokens: 128000
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 128
+      gpuCount: 32
+      gpuType: vgpu
+      memory: 2048
+      perGPUMemoryGB: 78
+    runtime: vllm
+    versionRequired: '>=v0.9.0'
+  descriptor:
+    description:
+      enUS: Kimi-K2-Instruct is an advanced instruction-tuned language model developed
+        by Moonshot AI, designed for enhanced reasoning, long-context understanding,
+        and multi-turn conversations.
+      zhCN: Kimi-K2-Instruct 是由月之暗面（Moonshot AI）开发的先进指令调优语言模型，专为增强推理、长上下文理解和多轮对话而设计。
+    display: Kimi-K2-Instruct
+    icon:
+      src: https://public-resources.d.run/models/logos/kimi-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.moonshot.cn/
+    provider:
+      id: moonshotai
+      name:
+        enUS: Moonshot AI
+        zhCN: 月之暗面
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: moonshotai/Kimi-K2-Instruct
+    modelscope:
+      name: moonshotai/Kimi-K2-Instruct
