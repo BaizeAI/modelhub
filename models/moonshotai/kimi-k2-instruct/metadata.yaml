@@ -8,13 +8,13 @@ spec:
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
-      cpu: 8
-      gpuCount: 2
+      cpu: 128
+      gpuCount: 32
       gpuType: vgpu
-      memory: 32
-      perGPUMemoryGB: 40
+      memory: 2048
+      perGPUMemoryGB: 78
     runtime: vllm
-    versionRequired: '>=v0.6.5'
+    versionRequired: '>=v0.9.0'
   descriptor:
     description:
       enUS: Kimi-K2-Instruct is an advanced instruction-tuned language model developed
