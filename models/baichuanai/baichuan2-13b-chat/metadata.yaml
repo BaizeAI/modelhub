@@ -8,14 +8,7 @@ spec:
   deployments:
   - customRuntimeArgs:
     - --chat-template
-    - "{{ (messages|selectattr(\"role\", \"equalto\", \"system\")|list|last).content|trim\
-      \ if (messages|selectattr(\"role\", \"equalto\", \"system\")|list) else \"\"\
-      \ }}\n\n{%- for message in messages -%}\n    {%- if message[\"role\"] == \"\
-      user\" -%}\n        {{- \"<reserved_106>\" + message[\"content\"] -}}\n    {%-\
-      \ elif message[\"role\"] == \"assistant\" -%}\n        {{- \"<reserved_107>\"\
-      \ + message[\"content\"] -}}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt\
-      \ and messages[-1][\"role\"] != \"assistant\" -%}\n    {{- \"<reserved_107>\"\
-      \ -}}\n{% endif %}"
+    - examples/template_baichuan.jinja
     resourceRequirements:
       cpu: 4
       gpuCount: 1
