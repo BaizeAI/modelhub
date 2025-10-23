@@ -3,12 +3,16 @@ kind: ModelSpec
 metadata:
   name: qwen3-235b-a22b-fp8
 spec:
+  config:
+    maxTokens: 40960
   deployments:
-  - customRuntimeArgs: []
+  - customRuntimeArgs:
+      - --enable_reasoning
+      - --reasoning_parser=deepseek_r1
     resourceRequirements:
       cpu: 16
       gpuCount: 8
-      gpuType: nvidia-vgpu
+      gpuType: vgpu
       memory: 640
       perGPUMemoryGB: 80
     runtime: vllm
