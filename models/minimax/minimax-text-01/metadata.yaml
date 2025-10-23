@@ -8,8 +8,8 @@ spec:
   deployments:
   - customRuntimeArgs: []
     resourceRequirements:
-      cpu: 8
-      gpuCount: 8
+      cpu: 16
+      gpuCount: 14
       gpuType: gpu
       memory: 640
       perGPUMemoryGB: 80
