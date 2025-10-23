@@ -6,7 +6,8 @@ spec:
   config:
     maxTokens: 16384
   deployments:
-  - customRuntimeArgs: []
+  - customRuntimeArgs:
+      - --reasoning-parser=deepseek_r1
     resourceRequirements:
       cpu: 16
       gpuCount: 12
