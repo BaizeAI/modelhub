@@ -44,6 +44,8 @@ spec:
         zhCN: 通义千问
     tags:
     - TEXT_GENERATION
+    - IMAGE_TO_TEXT
+    - VIDEO_TO_TEXT
   source:
     huggingface:
       name: Qwen/Qwen2.5-VL-7B-Instruct
