@@ -6,7 +6,10 @@ spec:
   config:
     maxTokens: 128000
   deployments:
-  - customRuntimeArgs: []
+  - customRuntimeArgs:
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - kimi_k2
     resourceRequirements:
       cpu: 128
       gpuCount: 32
@@ -35,6 +38,7 @@ spec:
         zhCN: 月之暗面
     tags:
     - TEXT_GENERATION
+    - TOOLS
   source:
     huggingface:
       name: moonshotai/Kimi-K2-Instruct
