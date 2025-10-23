@@ -6,7 +6,9 @@ spec:
   config:
     maxTokens: 128000
   deployments:
-  - customRuntimeArgs: []
+  - customRuntimeArgs:
+      - --max-num-batched-tokens=32768 # Reduce maxTokens from 128k to 32k to fit 50GB GPU and avoid OOM
+      - --max-model-len=32768          # Align max-model-len with max-num-batched-tokens for stable inference
     resourceRequirements:
       cpu: 4
       gpuCount: 1
