@@ -9,8 +9,7 @@ spec:
   - customRuntimeArgs:
     - --max-model-len=32768
     - --enforce-eager
-    - --enable_reasoning
-    - --reasoning_parser=deepseek_r1
+    - --reasoning-parser=deepseek_r1
     resourceRequirements:
       cpu: 4
       gpuCount: 1
@@ -22,8 +21,7 @@ spec:
   - customRuntimeArgs:
     - --max-model-len=32768
     - --enforce-eager
-    - --enable_reasoning
-    - --reasoning_parser=deepseek_r1
+    - --reasoning-parser=deepseek_r1
     resourceRequirements:
       cpu: 4
       gpuCount: 1
