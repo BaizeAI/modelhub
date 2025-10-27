@@ -9,8 +9,7 @@ spec:
   - customRuntimeArgs:
     - --max-model-len=32768
     - --enforce-eager
-    - --enable_reasoning
-    - --reasoning_parser=deepseek_r1
+    - --reasoning-parser=deepseek_r1
     - --gpu-memory-utilization=1
     resourceRequirements:
       cpu: 8
