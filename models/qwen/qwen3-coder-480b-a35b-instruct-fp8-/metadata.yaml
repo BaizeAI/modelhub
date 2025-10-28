@@ -1,0 +1,48 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen3-coder-480b-a35b-instruct-fp8
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: 'Today, we''re announcing Qwen3-Coder, our most agentic code model to
+        date. Qwen3-Coder is available in multiple sizes, but we''re excited to introduce
+        its most powerful variant first: Qwen3-Coder-480B-A35B-Instruct. featuring
+        the following key enhancements: - Significant Performance among open models
+        on Agentic Coding, Agentic Browser-Use, and other foundational coding tasks,
+        achieving results comparable to Claude Sonnet.'
+      zhCN: 'Today, we''re announcing Qwen3-Coder, our most agentic code model to
+        date. Qwen3-Coder is available in multiple sizes, but we''re excited to introduce
+        its most powerful variant first: Qwen3-Coder-480B-A35B-Instruct. featuring
+        the following key enhancements: - Significant Performance among open models
+        on Agentic Coding, Agentic Browser-Use, and other foundational coding tasks,
+        achieving results comparable to Claude Sonnet.'
+    display: Qwen3-Coder-480B-A35B-Instruct-FP8
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8
+    modelscope:
+      name: Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8
