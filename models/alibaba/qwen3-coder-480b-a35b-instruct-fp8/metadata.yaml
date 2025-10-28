@@ -1,0 +1,48 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen3-coder-480b-a35b-instruct-fp8
+spec:
+  config:
+    maxTokens: 262144
+  deployments:
+  - customRuntimeArgs:
+      - --max-model-len=131072
+      - --enable-auto-tool-choice
+      - --tool-call-parser
+      - qwen3_coder
+    resourceRequirements:
+      cpu: 16
+      gpuCount: 8
+      gpuType: vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: 'The Qwen3-Coder-480B-A35B-Instruct model supports 256K-token context (extendable to 1M via Yarn), 
+        excels in Agentic Coding, Browser-Use, and code benchmarks, and offers robust function-call 
+        support on platforms like Qwen Code and CLINE.'
+      zhCN: 'Qwen3-Coder-480B-A35B-Instruct 支持 256K Token 上下文 (可通过 Yarn 扩展至 1M),
+        在智能体编程、浏览任务及代码基准测试中表现出色，并在 Qwen Code、CLINE 等平台提供完善的函数调用支持.'
+    display: Qwen3-Coder-480B-A35B-Instruct-FP8
+    icon:
+      src: https://public-resources.d.run/models/logos/qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/QwenLM
+    provider:
+      id: alibaba
+      name:
+        enUS: Alibaba
+        zhCN: 通义千问
+    tags:
+    - TEXT_GENERATION
+    - TOOLS
+  source:
+    huggingface:
+      name: Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8
+    modelscope:
+      name: Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8
