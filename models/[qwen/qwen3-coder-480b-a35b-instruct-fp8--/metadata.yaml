@@ -1,0 +1,38 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: qwen3-coder-480b-a35b-instruct-fp8]
+spec:
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 8
+      gpuCount: 8
+      gpuType: nvidia-vgpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=0.8.5'
+  descriptor:
+    description:
+      enUS: A large language model from [Qwen.
+      zhCN: A large language model from [Qwen.
+    display: Qwen3-Coder-480B-A35B-Instruct-FP8]
+    icon:
+      src: https://public-resources.d.run/models/logos/[qwen-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://github.com/[Qwen
+    provider:
+      id: '[qwen'
+      name:
+        enUS: '[qwen'
+        zhCN: '[qwen'
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: '[Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8]'
+    modelscope:
+      name: '[Qwen/Qwen3-Coder-480B-A35B-Instruct-FP8]'
