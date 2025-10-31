@@ -9,7 +9,6 @@ spec:
   - customRuntimeArgs:
     - --max-model-len=4096
     - --max-num-seqs=16
-    - --enforce-eager
     - --enable-auto-tool-choice
     - --tool-call-parser
     - llama3_json
