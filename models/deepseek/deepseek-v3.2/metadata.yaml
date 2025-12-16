@@ -1,0 +1,40 @@
+apiVersion: model.hydra.io/v1alpha1
+kind: ModelSpec
+metadata:
+  name: deepseek-v3.2
+spec:
+  config:
+    maxTokens: 131072
+  deployments:
+  - customRuntimeArgs: []
+    resourceRequirements:
+      cpu: 16
+      gpuCount: 8
+      gpuType: gpu
+      memory: 640
+      perGPUMemoryGB: 80
+    runtime: vllm
+    versionRequired: '>=v0.6.5'
+  descriptor:
+    description:
+      enUS: DeepSeek-V3.2 is an enhanced version of the 671B parameter Mixture-of-Experts language model, activating 37B parameters per token, with improved performance and capabilities for advanced language understanding.
+      zhCN: DeepSeek-V3.2 是 6710 亿参数专家混合语言模型的增强版本，每个 token 激活 370 亿参数，在性能和能力方面得到改进，具备更强的高级语言理解能力。
+    display: 🔥 DeepSeek-V3.2
+    icon:
+      src: https://public-resources.d.run/models/logos/deepseek-model-logo.svg
+      type: image/svg
+    links:
+    - description: About
+      url: https://www.deepseek.com/
+    provider:
+      id: deepseek
+      name:
+        enUS: DeepSeek
+        zhCN: 深度求索
+    tags:
+    - TEXT_GENERATION
+  source:
+    huggingface:
+      name: deepseek-ai/DeepSeek-V3.2
+    modelscope:
+      name: deepseek-ai/DeepSeek-V3.2
