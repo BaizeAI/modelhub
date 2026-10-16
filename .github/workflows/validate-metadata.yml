@@ -388,7 +388,7 @@ jobs:
           python validate_consistency.py "${FILE_ARRAY[@]}"
 
       - name: Comment on PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         if: steps.changed-files.outputs.count != '0'
         with:
           script: |
